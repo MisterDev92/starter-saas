@@ -1,0 +1,24 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquer l'exécution PHP dans uploads/
+    RewriteRule ^uploads/.*\.php - [F,L]
+
+    # Servir les fichiers statiques directement
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Tout le reste → index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Limites upload
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 12M
+    php_value memory_limit 128M
+    php_value max_execution_time 60
+</IfModule>

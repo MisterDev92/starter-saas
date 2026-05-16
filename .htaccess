@@ -1,0 +1,23 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # --- Sécurité : bloquer l'accès direct aux dossiers sensibles ---
+    RewriteRule ^(app|config|sql|logs)(/|$) - [F,L]
+    RewriteRule ^\.env$ - [F,L]
+
+    # --- HTTPS forcé en production ---
+    # (décommentez si APP_ENV=production sur serveur avec HTTPS)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # --- Assets publics : servis directement depuis public/ ---
+    RewriteCond %{DOCUMENT_ROOT}/public/%{REQUEST_URI} -f
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # --- Tout le reste → public/index.php ---
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
+</IfModule>

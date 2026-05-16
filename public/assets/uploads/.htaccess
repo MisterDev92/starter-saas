@@ -1,0 +1,14 @@
+Options -Indexes -ExecCGI
+
+# Interdire TOUTE exécution PHP dans ce dossier
+<FilesMatch "\.ph(p[0-9]?|tml|ar)$">
+    Require all denied
+</FilesMatch>
+
+# Pour Apache 2.2
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.ph(p[0-9]?|tml|ar)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>

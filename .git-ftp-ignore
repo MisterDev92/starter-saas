@@ -1,0 +1,8 @@
+config/
+tools/
+database/
+resources/
+package.json
+package-lock.json
+README.md
+readme-workflow.md
